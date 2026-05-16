@@ -1,334 +1,63 @@
 <!DOCTYPE html>
 <html>
-<head><meta charset="UTF-8"><title>de</title></head>
+<head>
+<meta charset="UTF-8">
+<title>sulfurde</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0d0f0e;color:#c8d4c8;font-family:'JetBrains Mono',monospace;font-size:13px;padding:2rem;line-height:1.8}
+.g{color:#4afa7a}.d{color:#4a5248}.w{color:#fff;font-weight:700}.c{color:#5bc8fa}
+.box{border:1px solid #2a2e2a;border-radius:6px;padding:1rem 1.2rem;margin:1rem 0;background:#141614}
+.cmd{display:block;background:#1a1d1a;border:1px solid #2a2e2a;border-radius:4px;padding:.4rem .8rem;color:#4afa7a;margin:.4rem 0;font-size:12px}
+</style>
+</head>
 <body>
-<pre>
-DISTRO=debian
+<pre class="g">
+ ███████╗██╗   ██╗██╗     ███████╗██╗   ██╗██████╗ ██████╗ ███████╗
+ ██╔════╝██║   ██║██║     ██╔════╝██║   ██║██╔══██╗██╔══██╗██╔════╝
+ ███████╗██║   ██║██║     █████╗  ██║   ██║██████╔╝██║  ██║█████╗
+ ╚════██║██║   ██║██║     ██╔══╝  ██║   ██║██╔══██╗██║  ██║██╔══╝
+ ███████║╚██████╔╝███████╗██║     ╚██████╔╝██║  ██║██████╔╝███████╗
+ ╚══════╝ ╚═════╝ ╚══════╝╚═╝      ╚═════╝ ╚═╝  ╚═╝╚═════╝ ╚══════╝</pre>
+<span class="d">  i3 · xorg · ultraligero · ~50MB RAM</span>
 
-PKG_INSTALL="sudo apt install -y xorg xinit i3 i3status dmenu st dunst alsa-utils network-manager"
-PKG_INSTALL_ARCH="sudo pacman -S --noconfirm xorg-server xorg-xinit i3-wm i3status dmenu st dunst alsa-utils networkmanager"
-PKG_INSTALL_FEDORA="sudo dnf install -y xorg-x11-server-Xorg xorg-x11-xinit i3 i3status dmenu st dunst alsa-utils NetworkManager"
-PKG_INSTALL_VOID="sudo xbps-install -y xorg-server xinit i3 i3status dmenu st dunst alsa-utils NetworkManager"
+<div class="box">
+<span class="w">Instalador interactivo</span>
+<code class="cmd">bash &lt;(curl -s https://sulfurde.vercel.app/install.sh)</code>
+<span class="d">  — selecciona distro, componentes y tipo de arranque paso a paso</span>
+</div>
 
-BASH_PROFILE='
-# auto startx en tty1
-[ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ] && exec startx
-'
+<div class="box">
+<span class="w">Componentes incluidos</span><br>
+<span class="d">──────────────────────────────────</span><br>
+<span class="c">xorg-server</span>     servidor gráfico        <span class="d">~20 MB</span><br>
+<span class="c">i3-wm</span>           gestor de ventanas tiling <span class="d">~12 MB</span><br>
+<span class="c">i3status</span>        barra de estado           <span class="d">incluido</span><br>
+<span class="c">dmenu</span>           lanzador de apps          <span class="d">~0 MB reposo</span><br>
+<span class="c">st</span>              terminal ultraligero      <span class="d">~3 MB</span><br>
+<span class="c">dunst</span>           notificaciones            <span class="d">~3 MB</span><br>
+<span class="c">alsa-utils</span>      audio sin daemon          <span class="d">~0 MB</span><br>
+<span class="c">networkmanager</span>  gestión de red            <span class="d">~10 MB</span><br>
+<span class="d">──────────────────────────────────</span><br>
+<span class="g">TOTAL                                ~48-50 MB</span>
+</div>
 
-XINITRC='#!/bin/sh
-xsetroot -solid black &
-dunst &
-exec i3
-'
+<div class="box">
+<span class="w">Atajos i3</span><br>
+<span class="d">──────────────────────────────────</span><br>
+<span class="c">Mod+Enter</span>     abrir terminal<br>
+<span class="c">Mod+d</span>         lanzar aplicación<br>
+<span class="c">Mod+1..5</span>      cambiar workspace<br>
+<span class="c">Mod+Shift+q</span>   cerrar ventana<br>
+<span class="c">Mod+flechas</span>   mover foco<br>
+<span class="c">Mod+f</span>         pantalla completa<br>
+<span class="c">Mod+r</span>         modo resize<br>
+<span class="c">Mod+Shift+r</span>   recargar i3
+</div>
 
-I3_CONFIG='# ~/.config/i3/config
-set $mod Mod4
-
-font pango:monospace 9
-
-# terminal
-bindsym $mod+Return exec st
-
-# lanzador
-bindsym $mod+d exec dmenu_run
-
-# cerrar ventana
-bindsym $mod+Shift+q kill
-
-# foco
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
-
-# mover ventana
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
-
-# layouts
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
-
-# pantalla completa
-bindsym $mod+f fullscreen toggle
-
-# workspaces
-bindsym $mod+1 workspace 1
-bindsym $mod+2 workspace 2
-bindsym $mod+3 workspace 3
-bindsym $mod+4 workspace 4
-bindsym $mod+5 workspace 5
-bindsym $mod+Shift+1 move container to workspace 1
-bindsym $mod+Shift+2 move container to workspace 2
-bindsym $mod+Shift+3 move container to workspace 3
-bindsym $mod+Shift+4 move container to workspace 4
-bindsym $mod+Shift+5 move container to workspace 5
-
-# reload / restart / exit
-bindsym $mod+Shift+r restart
-bindsym $mod+Shift+c reload
-bindsym $mod+Shift+e exec i3-msg exit
-
-# barra
-bar {
-    status_command i3status
-    position top
-    colors {
-        background #0d0f0e
-        statusline #c8d4c8
-        focused_workspace  #4afa7a #4afa7a #0d0f0e
-        active_workspace   #2a2e2a #2a2e2a #c8d4c8
-        inactive_workspace #0d0f0e #0d0f0e #4a5248
-    }
-}
-
-# colores ventanas
-client.focused          #4afa7a #0d0f0e #c8d4c8 #4afa7a #4afa7a
-client.unfocused        #2a2e2a #0d0f0e #4a5248 #2a2e2a #2a2e2a
-client.focused_inactive #2a2e2a #0d0f0e #4a5248 #2a2e2a #2a2e2a
-
-# gaps (opcional, requiere i3-gaps)
-# gaps inner 6
-# gaps outer 2
-
-# flotantes
-floating_modifier $mod
-bindsym $mod+Shift+space floating toggle
-bindsym $mod+space focus mode_toggle
-
-# resize
-mode "resize" {
-    bindsym h resize shrink width 10 px or 10 ppt
-    bindsym j resize grow height 10 px or 10 ppt
-    bindsym k resize shrink height 10 px or 10 ppt
-    bindsym l resize grow width 10 px or 10 ppt
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
-bindsym $mod+r mode "resize"
-'
-
-I3STATUS='# ~/.config/i3status/config
-general {
-    colors = true
-    interval = 5
-    color_good = "#4afa7a"
-    color_degraded = "#faad4a"
-    color_bad = "#fa4a4a"
-}
-
-order += "disk /"
-order += "memory"
-order += "cpu_usage"
-order += "wireless _first_"
-order += "ethernet _first_"
-order += "volume master"
-order += "tztime local"
-
-disk "/" {
-    format = "disk: %avail"
-}
-memory {
-    format = "ram: %used / %total"
-    threshold_degraded = "10%"
-}
-cpu_usage {
-    format = "cpu: %usage"
-}
-wireless _first_ {
-    format_up = "wifi: %essid %quality"
-    format_down = "wifi: down"
-}
-ethernet _first_ {
-    format_up = "eth: %speed"
-    format_down = "eth: down"
-}
-volume master {
-    format = "vol: %volume"
-    format_muted = "vol: mute"
-    device = "default"
-    mixer = "Master"
-    mixer_idx = 0
-}
-tztime local {
-    format = "%H:%M %d/%m"
-}
-'
-
-DUNSTRC='# ~/.config/dunst/dunstrc
-[global]
-    monitor = 0
-    follow = none
-    geometry = "300x5-10+30"
-    indicate_hidden = yes
-    shrink = no
-    transparency = 0
-    separator_height = 1
-    padding = 6
-    horizontal_padding = 8
-    frame_width = 1
-    frame_color = "#2a2e2a"
-    sort = yes
-    idle_threshold = 120
-    font = monospace 9
-    markup = full
-    format = "<b>%s</b>\n%b"
-    alignment = left
-    show_age_threshold = 60
-    word_wrap = yes
-    ignore_newline = no
-    stack_duplicates = true
-    hide_duplicate_count = false
-    show_indicators = yes
-    icon_position = off
-    sticky_history = yes
-    history_length = 20
-    browser = /usr/bin/xdg-open
-    always_run_script = true
-    title = Dunst
-    class = Dunst
-
-[urgency_low]
-    background = "#0d0f0e"
-    foreground = "#4a5248"
-    frame_color = "#2a2e2a"
-    timeout = 4
-
-[urgency_normal]
-    background = "#0d0f0e"
-    foreground = "#c8d4c8"
-    frame_color = "#2a2e2a"
-    timeout = 6
-
-[urgency_critical]
-    background = "#0d0f0e"
-    foreground = "#fa4a4a"
-    frame_color = "#fa4a4a"
-    timeout = 0
-'
-
-INSTALL_SCRIPT='#!/usr/bin/env bash
-# setup-de.sh — instala y configura el DE ultraligero
-# uso: bash setup-de.sh [debian|arch|fedora|void]
-set -e
-DISTRO=${1:-debian}
-
-echo ">> instalando paquetes ($DISTRO)..."
-case $DISTRO in
-  debian|ubuntu)
-    sudo apt install -y xorg xinit i3 i3status dmenu st dunst alsa-utils network-manager ;;
-  arch)
-    sudo pacman -S --noconfirm xorg-server xorg-xinit i3-wm i3status dmenu st dunst alsa-utils networkmanager
-    sudo systemctl enable NetworkManager ;;
-  fedora)
-    sudo dnf install -y xorg-x11-server-Xorg xorg-x11-xinit i3 i3status dmenu st dunst alsa-utils NetworkManager ;;
-  void)
-    sudo xbps-install -y xorg-server xinit i3 i3status dmenu st dunst alsa-utils NetworkManager ;;
-esac
-
-echo ">> creando directorios de config..."
-mkdir -p ~/.config/i3 ~/.config/i3status ~/.config/dunst
-
-echo ">> escribiendo ~/.xinitrc..."
-cat > ~/.xinitrc << XINITRC
-#!/bin/sh
-xsetroot -solid black &
-dunst &
-exec i3
-XINITRC
-
-echo ">> escribiendo ~/.bash_profile (startx auto en tty1)..."
-grep -q "startx" ~/.bash_profile 2>/dev/null || cat >> ~/.bash_profile << BPROFILE
-
-[ -z "\$DISPLAY" ] && [ "\$(tty)" = "/dev/tty1" ] && exec startx
-BPROFILE
-
-echo ">> listo. reinicia y loguea en tty1."
-echo "   atajos: Mod+Enter=terminal  Mod+d=apps  Mod+Shift+q=cerrar"
-'
-
-RAM_USAGE='componente         ram aprox
------------        ---------
-xorg-server        ~20 MB
-i3-wm + i3bar      ~12 MB
-dmenu              ~0 MB (reposo)
-st (terminal x1)   ~3 MB
-dunst              ~3 MB
-alsa               ~0 MB
-networkmanager     ~10 MB
------------        ---------
-TOTAL              ~48-50 MB
-'
-
-XORG_DRIVERS='# drivers xorg segun GPU:
-# Intel:  sudo apt install xserver-xorg-video-intel
-# AMD:    sudo apt install xserver-xorg-video-amdgpu
-# NVIDIA: sudo apt install nvidia-driver (non-free)
-# VM:     sudo apt install xserver-xorg-video-vmware  (VMware)
-#         sudo apt install xserver-xorg-video-vboxvideo (VirtualBox)
-# generico (funciona en casi todo): xserver-xorg-video-fbdev
-'
-
-NETWORK_CMDS='# comandos nmcli para trabajo IT (sin GUI):
-nmcli d                                    # listar interfaces
-nmcli d wifi list                          # listar redes wifi
-nmcli d wifi connect "SSID" password "pw" # conectar wifi
-nmcli c show                               # listar conexiones
-nmcli c up "nombre"                        # activar conexion
-nmcli c down "nombre"                      # desactivar
-nmcli c delete "nombre"                    # borrar conexion
-nmcli g                                    # estado general
-'
-
-AUDIO_CMDS='# comandos alsa (sin pipewire, ultraligero):
-alsamixer                    # mixer interactivo (flechas + m para unmute)
-amixer sset Master unmute    # unmute master
-amixer sset Master 70%       # volumen al 70%
-amixer sset Master 5%+       # subir 5%
-amixer sset Master 5%-       # bajar 5%
-aplay -l                     # listar dispositivos de audio
-aplay archivo.wav            # reproducir wav
-speaker-test -t wav -c 2     # test de audio
-'
-
-XORG_MULTIMONITOR='# dos monitores con xrandr (sin reiniciar X):
-xrandr                                          # listar monitores y modos
-xrandr --output HDMI-1 --auto --right-of eDP-1 # HDMI a la derecha
-xrandr --output HDMI-1 --auto --above eDP-1    # HDMI arriba
-xrandr --output HDMI-1 --off                   # apagar monitor externo
-xrandr --output eDP-1 --mode 1920x1080         # forzar resolucion
-
-# en ~/.config/i3/config para que i3 sepa de los monitores:
-# workspace 1 output eDP-1
-# workspace 2 output HDMI-1
-'
-
-TROUBLESHOOT='# X no arranca:
-startx -- :0 2>&1 | tail -50          # ver error completo
-cat /var/log/Xorg.0.log | grep EE     # solo errores
-ls /tmp/.X*                           # sockets X activos (conflicto si existen)
-
-# i3 no carga config:
-i3 --validate                         # validar config antes de recargar
-
-# sin sonido con alsa:
-cat /proc/asound/cards                # listar tarjetas
-amixer -c 0 sset Master unmute        # unmute tarjeta 0
-
-# red no conecta:
-sudo systemctl status NetworkManager  # estado del servicio
-sudo systemctl restart NetworkManager # reiniciar
-journalctl -u NetworkManager -n 30    # ultimos logs
-
-# pantalla negra al arrancar:
-# verificar que ~/.xinitrc existe y tiene permisos de ejecucion
-chmod +x ~/.xinitrc
-# verificar que startx esta instalado:
-which startx
-'
-</pre>
+<div class="box">
+<span class="w">Referencia rápida</span><br>
+<code class="cmd">curl -s https://sulfurde.vercel.app/install.sh | bash -s -- --help</code>
+</div>
 </body>
 </html>
